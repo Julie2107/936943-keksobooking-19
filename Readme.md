@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Julia Gankina](https://up.htmlacademy.ru/javascript/19/user/936943).
-* Наставник: `Неизвестно`.
+* Наставник: Максим Грязнов.
 
 ---
 
