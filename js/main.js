@@ -149,17 +149,6 @@ mainPin.addEventListener('keydown', function (evt) {
 
 var inputRoomsNumber = adForm.querySelector('#room_number');
 var inputGuestsNumber = adForm.querySelector('#capacity');
-/*var disableOption = function (input1, input2) {
-  if (inputGuestsNumber.value > inputRoomsNumber.value) {
-    var roomOptions = inputRoomsNumber.querySelectorAll('option');
-    for (var i=0; i < roomOptions.length; i++) {
-      if (roomOptions[i].value < inputGuestsNumber.value) {
-        roomOptions[i].setAttribute('disabled', '');
-      } else {
-        roomOptions[i].removeAttribute('disabled');
-      }
-    }
-}*/
 
 var roomOptions = inputRoomsNumber.querySelectorAll('option');
 var guestOptions = inputGuestsNumber.querySelectorAll('option');
