@@ -18,18 +18,34 @@ var POPUP_AVATAR_CLASS = '.popup__avatar';
 var ENTER_KEY = 'Enter';
 var MAIN_PIN_SIZE = 65;
 var MAIN_PIN_AFTER_HEIGHT = 22;
+var ADS_QUANTITY = 8;
 
 var map = document.querySelector('.map');
 var pinsList = document.querySelector('.map__pins');
 var mainPin = map.querySelector('.map__pin--main');
 var fragment = document.createDocumentFragment();
 
+var filter = document.querySelector('.map__filters');
+var mapFilters = filter.children;
+var adForm = document.querySelector('.ad-form');
+var adFormInputs = adForm.querySelectorAll('input');
+var addressInput = adForm.querySelector('input#address');
+var mainPinX = mainPin.offsetLeft;
+var mainPinY = mainPin.offsetTop;
+
+
+var inputRoomsNumber = adForm.querySelector('#room_number');
+var inputGuestsNumber = adForm.querySelector('#capacity');
+
+var roomOptions = inputRoomsNumber.querySelectorAll('option');
+var guestOptions = inputGuestsNumber.querySelectorAll('option');
+
 var getRandomInteger = function (min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min));
 };
-var getRandomArray = function (qty, min, max) {
+var getRandomArray = function (quantity, min, max) {
   var randomArray = [];
-  for (var i = 0; i < qty; i++) {
+  for (var i = 0; i < quantity; i++) {
     randomArray[i] = getRandomInteger(min, max);
   }
   return randomArray;
@@ -43,9 +59,9 @@ var getRandomElementsArray = function (min, max, array) {
   return finArray;
 };
 
-var getAvatarUrl = function (qty) {
+var getAvatarUrl = function (quantity) {
   var urls = [];
-  for (var i = 0; i < qty; i++) {
+  for (var i = 0; i < quantity; i++) {
     var urlIndex = i + 1;
     urls[i] = 'img/avatars/user0' + urlIndex + '.png';
   }
@@ -77,8 +93,8 @@ var deleteUndefinedTextContent = function (block) {
   return block;
 };
 
-var deleteUndefined = function (array, element) {
-  if (array.length === 0 || array === undefined) {
+var deleteUndefined = function (elementsArray, element) {
+  if (elementsArray || elementsArray.length === 0) {
     element.classList.add('visually-hidden');
   }
 }
@@ -91,27 +107,22 @@ var renderPhotos = function (element, selector, array) {
     element.querySelector('.popup__photos').appendChild(photoElement);
   }
 };
-var avatarsUrls = getAvatarUrl(8);
-var prices = getRandomArray(8, 0, 1000);
-var rooms = getRandomArray(8, 1, 4);
-var guests = getRandomArray(8, 1, 8);
+var avatarsUrls = getAvatarUrl(ADS_QUANTITY);
+var prices = getRandomArray(ADS_QUANTITY, 0, 1000);
+var rooms = getRandomArray(ADS_QUANTITY, 1, 4);
+var guests = getRandomArray(ADS_QUANTITY, 1, ADS_QUANTITY);
 
-var filter = document.querySelector('.map__filters');
-var mapFilters = filter.children;
-var adForm = document.querySelector('.ad-form');
-var adFormInputs = adForm.querySelectorAll('input');
-var addressInput = adForm.querySelector('input#address');
-var mainPinX = mainPin.offsetLeft;
-var mainPinY = mainPin.offsetTop;
-var doElementsDisabled = function (array, element) {
-  for (var i = 0; i < array.length; i++) {
-    array[i].setAttribute('disabled', '');
-  }
+var doElementsDisabled = function (elementsCollection) {
+  var elementsArray = Array.from(elementsCollection);
+  elementsArray.forEach(function(element) {
+    element.setAttribute('disabled', '');
+  });
 }
-var undoElementsDisabled = function (array, element) {
-  for (var i = 0; i < array.length; i++) {
-    array[i].removeAttribute('disabled', '');
-  }
+var undoElementsDisabled = function (elementsCollection) {
+  var elementsArray = Array.from(elementsCollection);
+  elementsArray.forEach(function(element) {
+    element.removeAttribute('disabled');
+  });
 }
 
 var activateMap = function () {
@@ -123,17 +134,20 @@ var activateMap = function () {
 
 doElementsDisabled(adFormInputs);
 doElementsDisabled(mapFilters);
-var addressX = mainPinX + Math.floor(MAIN_PIN_SIZE/2);
-var addressY = mainPinY + Math.floor(MAIN_PIN_SIZE/2);
-addressInput.value = addressX + ', ' + addressY;
+
+var getAdress = function (pinParameterX, pinParameterY) {
+  var addressX = mainPinX + pinParameterX;
+  var addressY = mainPinY + pinParameterY;
+  var adressValue = addressX + ', ' + addressY;
+  return adressValue;
+}
+addressInput.value = getAdress(Math.floor(MAIN_PIN_SIZE/2), Math.floor(MAIN_PIN_SIZE/2));
 
 mainPin.addEventListener('mousedown', function (evt) {
   if (evt.button === 0) {
   activateMap();
 
-  addressX = mainPinX + Math.floor(MAIN_PIN_SIZE/2);
-  addressY = mainPinY + MAIN_PIN_SIZE + MAIN_PIN_AFTER_HEIGHT;
-  addressInput.value = addressX + ', ' + addressY;
+  addressInput.value = getAdress(Math.floor(MAIN_PIN_SIZE/2), MAIN_PIN_SIZE + MAIN_PIN_AFTER_HEIGHT);
   }
 })
 
@@ -147,26 +161,14 @@ mainPin.addEventListener('keydown', function (evt) {
   }
 })
 
-var inputRoomsNumber = adForm.querySelector('#room_number');
-var inputGuestsNumber = adForm.querySelector('#capacity');
-
-var roomOptions = inputRoomsNumber.querySelectorAll('option');
-var guestOptions = inputGuestsNumber.querySelectorAll('option');
-var validateCapacity = function (options, select) {
-  for (var i = 0; i < options.length; i++) {
-    if (options[i].value < select.value) {
-      options[i].setAttribute('disabled', '');
-    } else {
-      options[i].removeAttribute('disabled');
-    }
-  }
-}
-inputGuestsNumber.addEventListener('change', function() {
-  validateCapacity(roomOptions, inputGuestsNumber)
-})
-
 inputRoomsNumber.addEventListener('change', function() {
-  validateCapacity(guestOptions, inputRoomsNumber);
+  guestOptions.forEach(function(option) {
+    if (option.value > inputRoomsNumber.value) {
+        option.setAttribute('disabled', '');
+    } else {
+        option.removeAttribute('disabled');
+    }
+  });
 });
 
 var getCapacityValidationMessage = function (evt) {
@@ -214,7 +216,7 @@ var getOffer = function (objNumber) {
   return offersArray;
 };
 
-var offers = getOffer(8);
+var offers = getOffer(ADS_QUANTITY);
 
 var typesList = {
   palace: 'Дворец',
@@ -242,7 +244,7 @@ var createFragment = function (array, element) {
     fragment.appendChild(element(array[j]));
   }
 };
-/*
+
 var renderCard = function (ads) {
   var cardElement = cardTemplate.cloneNode(true);
   cardElement.querySelector(POPUP_TITLE_CLASS).textContent = ads.offer.title;
@@ -268,8 +270,8 @@ var renderCard = function (ads) {
   deleteUndefinedTextContent(cardElement);
   return cardElement;
 };
-*/
-//createFragment(offers, renderPin);
-//pinsList.appendChild(fragment);
-//createFragment(offers, renderCard);
-//map.insertBefore(fragment, map.querySelector('.map__filters-container'));
+
+createFragment(offers, renderPin);
+pinsList.appendChild(fragment);
+createFragment(offers, renderCard);
+map.insertBefore(fragment, map.querySelector('.map__filters-container'));
