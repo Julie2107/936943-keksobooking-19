@@ -20,6 +20,13 @@ var MAIN_PIN_SIZE = 65;
 var MAIN_PIN_AFTER_HEIGHT = 22;
 var ADS_QUANTITY = 8;
 
+var typesList = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalo: 'Бунгало'
+};
+
 var map = document.querySelector('.map');
 var pinsList = document.querySelector('.map__pins');
 var mainPin = map.querySelector('.map__pin--main');
@@ -94,7 +101,7 @@ var deleteUndefinedTextContent = function (block) {
 };
 
 var deleteUndefined = function (elementsArray, element) {
-  if (elementsArray || elementsArray.length === 0) {
+  if (elementsArray === undefined || elementsArray.length === 0) {
     element.classList.add('visually-hidden');
   }
 }
@@ -113,14 +120,12 @@ var rooms = getRandomArray(ADS_QUANTITY, 1, 4);
 var guests = getRandomArray(ADS_QUANTITY, 1, ADS_QUANTITY);
 
 var doElementsDisabled = function (elementsCollection) {
-  var elementsArray = Array.from(elementsCollection);
-  elementsArray.forEach(function(element) {
+  Array.from(elementsCollection).forEach(function(element) {
     element.setAttribute('disabled', '');
   });
 }
 var undoElementsDisabled = function (elementsCollection) {
-  var elementsArray = Array.from(elementsCollection);
-  elementsArray.forEach(function(element) {
+  Array.from(elementsCollection).forEach(function(element) {
     element.removeAttribute('disabled');
   });
 }
@@ -161,7 +166,7 @@ mainPin.addEventListener('keydown', function (evt) {
   }
 })
 
-inputRoomsNumber.addEventListener('change', function() {
+/*inputRoomsNumber.addEventListener('change', function() {
   guestOptions.forEach(function(option) {
     if (option.value > inputRoomsNumber.value) {
         option.setAttribute('disabled', '');
@@ -170,9 +175,14 @@ inputRoomsNumber.addEventListener('change', function() {
     }
   });
 });
-
+*/
 var getCapacityValidationMessage = function (evt) {
-  if (inputGuestsNumber.value > inputRoomsNumber.value) {
+  var guestValue = +inputGuestsNumber.value;
+  var roomsValue = +inputRoomsNumber.value;
+  if ((guestValue === 0 && roomsValue !== 100) || (guestValue !== 0 && roomsValue === 100)) {
+    evt.preventDefault();
+    inputRoomsNumber.setCustomValidity('опция "100 комнат" предназначена не для гостей');
+  } else if (guestValue > roomsValue) {
     evt.preventDefault();
     inputRoomsNumber.setCustomValidity('Количество гостей не должно превышать количество комнат');
   } else {
@@ -180,7 +190,7 @@ var getCapacityValidationMessage = function (evt) {
   }
 }
 
-adForm.addEventListener('submit', function(evt) {
+adForm.addEventListener('input', function(evt) {
   getCapacityValidationMessage(evt);
 })
 
@@ -217,18 +227,11 @@ var getOffer = function (objNumber) {
 };
 
 var offers = getOffer(ADS_QUANTITY);
+console.log(offers);
 
-var typesList = {
-  palace: 'Дворец',
-  flat: 'Квартира',
-  house: 'Дом',
-  bungalo: 'Бунгало'
-};
-
-var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
-var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
 var renderPin = function (ads) {
+  var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var pinElement = pinTemplate.cloneNode(true);
   var pinImage = pinElement.querySelector('img');
   pinElement.style.left = (ads.location.x - pinImage.width / 2) + 'px';
@@ -245,6 +248,7 @@ var createFragment = function (array, element) {
   }
 };
 
+var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 var renderCard = function (ads) {
   var cardElement = cardTemplate.cloneNode(true);
   cardElement.querySelector(POPUP_TITLE_CLASS).textContent = ads.offer.title;
