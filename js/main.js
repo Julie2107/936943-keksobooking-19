@@ -44,8 +44,8 @@ var mainPinY = mainPin.offsetTop;
 var inputRoomsNumber = adForm.querySelector('#room_number');
 var inputGuestsNumber = adForm.querySelector('#capacity');
 
-var roomOptions = inputRoomsNumber.querySelectorAll('option');
-var guestOptions = inputGuestsNumber.querySelectorAll('option');
+// var roomOptions = inputRoomsNumber.querySelectorAll('option');
+// var guestOptions = inputGuestsNumber.querySelectorAll('option');
 
 var getRandomInteger = function (min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min));
@@ -104,7 +104,7 @@ var deleteUndefined = function (elementsArray, element) {
   if (elementsArray === undefined || elementsArray.length === 0) {
     element.classList.add('visually-hidden');
   }
-}
+};
 
 var renderPhotos = function (element, selector, array) {
   element.querySelector(selector).src = array[0];
@@ -120,22 +120,22 @@ var rooms = getRandomArray(ADS_QUANTITY, 1, 4);
 var guests = getRandomArray(ADS_QUANTITY, 1, ADS_QUANTITY);
 
 var doElementsDisabled = function (elementsCollection) {
-  Array.from(elementsCollection).forEach(function(element) {
+  Array.from(elementsCollection).forEach(function (element) {
     element.setAttribute('disabled', '');
   });
-}
+};
 var undoElementsDisabled = function (elementsCollection) {
-  Array.from(elementsCollection).forEach(function(element) {
+  Array.from(elementsCollection).forEach(function (element) {
     element.removeAttribute('disabled');
   });
-}
+};
 
 var activateMap = function () {
   map.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
   undoElementsDisabled(adFormInputs);
   undoElementsDisabled(mapFilters);
-}
+};
 
 doElementsDisabled(adFormInputs);
 doElementsDisabled(mapFilters);
@@ -145,28 +145,29 @@ var getAdress = function (pinParameterX, pinParameterY) {
   var addressY = mainPinY + pinParameterY;
   var adressValue = addressX + ', ' + addressY;
   return adressValue;
-}
-addressInput.value = getAdress(Math.floor(MAIN_PIN_SIZE/2), Math.floor(MAIN_PIN_SIZE/2));
+};
+addressInput.value = getAdress(Math.floor(MAIN_PIN_SIZE / 2), Math.floor(MAIN_PIN_SIZE / 2));
 
 mainPin.addEventListener('mousedown', function (evt) {
   if (evt.button === 0) {
-  activateMap();
+    activateMap();
 
-  addressInput.value = getAdress(Math.floor(MAIN_PIN_SIZE/2), MAIN_PIN_SIZE + MAIN_PIN_AFTER_HEIGHT);
+    addressInput.value = getAdress(Math.floor(MAIN_PIN_SIZE / 2), MAIN_PIN_SIZE + MAIN_PIN_AFTER_HEIGHT);
   }
-})
+});
 
 mainPin.addEventListener('keydown', function (evt) {
   if (evt.key === ENTER_KEY) {
     activateMap();
 
-    addressX = mainPinX + Math.floor(MAIN_PIN_SIZE/2);
-    addressY = mainPinY + MAIN_PIN_SIZE + MAIN_PIN_AFTER_HEIGHT;
+    var addressX = mainPinX + Math.floor(MAIN_PIN_SIZE / 2);
+    var addressY = mainPinY + MAIN_PIN_SIZE + MAIN_PIN_AFTER_HEIGHT;
     addressInput.value = addressX + ', ' + addressY;
   }
-})
+});
 
-/*inputRoomsNumber.addEventListener('change', function() {
+/*
+inputRoomsNumber.addEventListener('change', function() {
   guestOptions.forEach(function(option) {
     if (option.value > inputRoomsNumber.value) {
         option.setAttribute('disabled', '');
@@ -188,11 +189,11 @@ var getCapacityValidationMessage = function (evt) {
   } else {
     inputRoomsNumber.setCustomValidity('');
   }
-}
+};
 
-adForm.addEventListener('input', function(evt) {
+adForm.addEventListener('input', function (evt) {
   getCapacityValidationMessage(evt);
-})
+});
 
 var getOffer = function (objNumber) {
   var offersArray = [];
@@ -227,8 +228,6 @@ var getOffer = function (objNumber) {
 };
 
 var offers = getOffer(ADS_QUANTITY);
-console.log(offers);
-
 
 var renderPin = function (ads) {
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
@@ -265,9 +264,9 @@ var renderCard = function (ads) {
 
   cardElement.querySelector(POPUP_DESCRIPTION_CLASS).textContent = ads.offer.description;
   deleteUndefined(ads.offer.photos, cardElement.querySelector('.popup__photos'));
-  //if (ads.offer.photos.length === 0 || ads.offer.photos === undefined) {
+  // if (ads.offer.photos.length === 0 || ads.offer.photos === undefined) {
   //  cardElement.querySelector('.popup__photos').classList.add('visually-hidden');
-  //}
+  // }
   renderPhotos(cardElement, POPUP_PHOTO_CLASS, ads.offer.photos);
   cardElement.querySelector(POPUP_AVATAR_CLASS).src = ads.author.avatar;
 
