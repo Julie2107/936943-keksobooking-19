@@ -319,10 +319,8 @@ var paintPins = function () {
     var article = map.querySelector('article');
     if (article) {
       article.remove();
-      createCard(data);
-    } else {
-      createCard(data);
     }
+      createCard(data);
   };
   pins.forEach(function (pin, i) {
     pin.addEventListener('click', function () {
