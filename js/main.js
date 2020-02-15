@@ -114,11 +114,11 @@ var deleteUndefined = function (elementsArray, element) {
   }
 };
 
-var renderPhotos = function (element, selector, photosArray) {
-  element.querySelector(selector).src = photosArray[0];
-  for (var i = 1; i < photosArray.length; i++) {
+var renderPhotos = function (element, selector, photos) {
+  element.querySelector(selector).src = photos[0];
+  for (var i = 1; i < photos.length; i++) {
     var photoElement = element.querySelector(selector).cloneNode(true);
-    photoElement.src = photosArray[i];
+    photoElement.src = photos[i];
     element.querySelector('.popup__photos').appendChild(photoElement);
   }
 };
@@ -320,7 +320,7 @@ var paintPins = function () {
     if (article) {
       article.remove();
     }
-      createCard(data);
+    createCard(data);
   };
   pins.forEach(function (pin, i) {
     pin.addEventListener('click', function () {
