@@ -11,6 +11,8 @@
   var prices = window.utils.getRandomArray(ADS_QUANTITY, 0, 1000);
   var rooms = window.utils.getRandomArray(ADS_QUANTITY, 1, 4);
   var guests = window.utils.getRandomArray(ADS_QUANTITY, 1, ADS_QUANTITY);
+  var map = document.querySelector('.map');
+  var mapWidth = map.offsetWidth;
 
   var getAvatarUrl = function (quantity) {
     var urls = [];
@@ -24,7 +26,7 @@
   var getOffer = function (objNumber) {
     var offersArray = [];
     for (var i = 0; i < objNumber; i++) {
-      var locationX = window.utils.getRandomInteger(20, 940);
+      var locationX = window.utils.getRandomInteger(20, mapWidth);
       var locationY = window.utils.getRandomInteger(130, 630);
       offersArray[i] = {
         author: {
