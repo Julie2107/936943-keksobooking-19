@@ -18,6 +18,26 @@
   var mainPinX = mainPin.offsetLeft;
   var mainPinY = mainPin.offsetTop;
 
+  var getPinLeftValue = function (coord) {
+    if (coord < 0 - Math.floor(MAIN_PIN_SIZE / 2)) {
+      mainPin.style.left = -Math.floor(MAIN_PIN_SIZE / 2) + 'px';
+    } else if (coord > mapWidth) {
+      mainPin.style.left = (mapWidth - Math.floor(MAIN_PIN_SIZE / 2)) + 'px';
+    } else {
+      mainPin.style.left = coord + 'px';
+    }
+  };
+
+  var getPinTopValue = function (coord) {
+    if (coord < TOP_MIN - MAIN_PIN_SIZE - MAIN_PIN_AFTER_HEIGHT) {
+      mainPin.style.top = (TOP_MIN - MAIN_PIN_SIZE - MAIN_PIN_AFTER_HEIGHT) + 'px';
+    } else if (coord > TOP_MAX) {
+      mainPin.style.top = TOP_MAX + 'px';
+    } else {
+      mainPin.style.top = coord + 'px';
+    }
+  };
+
   var doElementsDisabled = function (elementsCollection) {
     Array.from(elementsCollection).forEach(function (element) {
       element.setAttribute('disabled', '');
@@ -77,34 +97,18 @@
       var leftFin = mainPin.offsetLeft - shift.x;
       var topFin = mainPin.offsetTop - shift.y;
 
-      if (leftFin < 0 - Math.floor(MAIN_PIN_SIZE / 2)) {
-        mainPin.style.left = -Math.floor(MAIN_PIN_SIZE / 2) + 'px';
-      } else if (leftFin > mapWidth) {
-        mainPin.style.left = (mapWidth - Math.floor(MAIN_PIN_SIZE / 2)) + 'px';
-      } else {
-        mainPin.style.left = leftFin + 'px';
-      }
+      getPinLeftValue(leftFin);
+      getPinTopValue(topFin);
 
-      if (topFin < TOP_MIN - MAIN_PIN_SIZE - MAIN_PIN_AFTER_HEIGHT) {
-        mainPin.style.top = (TOP_MIN - MAIN_PIN_SIZE - MAIN_PIN_AFTER_HEIGHT) + 'px';
-      } else if (topFin > TOP_MAX) {
-        mainPin.style.top = TOP_MAX + 'px';
-      } else {
-        mainPin.style.top = topFin + 'px';
-      }
-
-      addressInput.value = (leftFin + Math.floor(MAIN_PIN_SIZE / 2)) + ', ' + (topFin - shift.y + MAIN_PIN_SIZE + MAIN_PIN_AFTER_HEIGHT);
-
+      addressInput.value = (leftFin + Math.floor(MAIN_PIN_SIZE / 2)) + ', ' + (topFin + MAIN_PIN_SIZE + MAIN_PIN_AFTER_HEIGHT);
     };
 
     var onMouseUp = function () {
       document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
+      document.addEventListener('mouseup', onMouseUp);
     };
     document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', function () {
-      onMouseUp();
-    });
+    document.addEventListener('mouseup', onMouseUp);
   });
   // активация клавиатурой
   mainPin.addEventListener('keydown', function (evt) {
