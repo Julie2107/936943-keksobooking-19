@@ -1,14 +1,14 @@
 'use strict';
 
 (function () {
-  var TYPES = ['palace', 'flat', 'house', 'bungalo'];
+  /* var TYPES = ['palace', 'flat', 'house', 'bungalo'];
   var CHECKIN_TIMES = ['12:00', '13:00', '14:00'];
   var CHECKOUT_TIMES = ['12:00', '13:00', '14:00'];
   var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
   var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
   var ADS_QUANTITY = 8;
 
-  /*var prices = window.utils.getRandomArray(ADS_QUANTITY, 0, 1000);
+  var prices = window.utils.getRandomArray(ADS_QUANTITY, 0, 1000);
   var rooms = window.utils.getRandomArray(ADS_QUANTITY, 1, 4);
   var guests = window.utils.getRandomArray(ADS_QUANTITY, 1, ADS_QUANTITY);
   var map = document.querySelector('.map');
@@ -52,9 +52,9 @@
       };
     }
     return offersArray;
-  };*/
+  }; */
   window.data = {
-    offers: [],//getOffer(ADS_QUANTITY),
+    offers: [], // getOffer(ADS_QUANTITY),
     typesList: {
       palace: {
         type: 'Дворец',

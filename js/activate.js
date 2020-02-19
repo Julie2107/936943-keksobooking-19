@@ -72,7 +72,7 @@
 
     errorBlock.textContent = errorMessage;
     document.body.insertAdjacentElement('afterbegin', errorBlock);
-  }
+  };
 
   var activateMap = function () {
     map.classList.remove('map--faded');
