@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var TYPES = ['palace', 'flat', 'house', 'bungalo'];
+  /* var TYPES = ['palace', 'flat', 'house', 'bungalo'];
   var CHECKIN_TIMES = ['12:00', '13:00', '14:00'];
   var CHECKOUT_TIMES = ['12:00', '13:00', '14:00'];
   var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -52,9 +52,9 @@
       };
     }
     return offersArray;
-  };
+  }; */
   window.data = {
-    offers: getOffer(ADS_QUANTITY),
+    offers: [], // getOffer(ADS_QUANTITY),
     typesList: {
       palace: {
         type: 'Дворец',

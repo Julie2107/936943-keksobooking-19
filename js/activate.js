@@ -57,6 +57,23 @@
     return adressValue;
   };
 
+  var successHandler = function (offers) {
+    window.data.offers = offers;
+    window.pins.paintPins();
+  };
+
+  var errorHandler = function (errorMessage) {
+    var errorBlock = document.createElement('div');
+    errorBlock.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: tomato;';
+    errorBlock.style.position = 'absolute';
+    errorBlock.style.left = 0;
+    errorBlock.style.top = 0;
+    errorBlock.style.fontSize = '30px';
+
+    errorBlock.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', errorBlock);
+  };
+
   var activateMap = function () {
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
@@ -66,6 +83,7 @@
 
   var getActivation = function () {
     activateMap();
+    window.backend.download(successHandler, errorHandler);
     window.pins.paintPins();
     addressInput.value = getAdress(Math.floor(MAIN_PIN_SIZE / 2), MAIN_PIN_SIZE + MAIN_PIN_AFTER_HEIGHT);
   };
