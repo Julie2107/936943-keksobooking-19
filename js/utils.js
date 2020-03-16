@@ -3,32 +3,31 @@
 (function () {
   var ECS_KEY = 'Escape';
   var ENTER_KEY = 'Enter';
-
   window.utils = {
-    getRandomInteger: function (min, max) {
-      return Math.floor(min + Math.random() * (max + 1 - min));
-    },
-    getRandomArray: function (quantity, min, max) {
-      var randomArray = [];
-      for (var i = 0; i < quantity; i++) {
-        randomArray[i] = this.getRandomInteger(min, max);
+    fragment: document.createDocumentFragment(),
+    typesList: {
+      palace: {
+        type: 'Дворец',
+        minprice: '10000'
+      },
+      flat: {
+        type: 'Квартира',
+        minprice: '1000'
+      },
+      house: {
+        type: 'Дом',
+        minprice: '5000'
+      },
+      bungalo: {
+        type: 'Бунгало',
+        minprice: 0
       }
-      return randomArray;
-    },
-    getRandomElementsArray: function (min, max, array) {
-      var finArray = [];
-      var arrLength = this.getRandomInteger(min, max);
-      for (var i = 0; i < arrLength; i++) {
-        finArray[i] = array[i];
-      }
-      return finArray;
     },
     isEscEvent: function (evt, action) {
       if (evt.key === ECS_KEY) {
         action();
       }
     },
-
     isEnterEvent: function (evt, action) {
       if (evt.key === ENTER_KEY) {
         action();

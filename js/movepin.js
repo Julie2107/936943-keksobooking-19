@@ -1,20 +1,19 @@
 'use strict';
 
 (function () {
-  // активация мышкой
   var MAIN_PIN_SIZE = 65;
   var MAIN_PIN_AFTER_HEIGHT = 22;
   var TOP_MAX = 630;
   var TOP_MIN = 130;
 
-  var adForm = document.querySelector('.ad-form');
   var map = document.querySelector('.map');
+  var adForm = document.querySelector('.ad-form');
+  var mainPin = map.querySelector('.map__pin--main');
   var mapWidth = map.offsetWidth;
   var adFormInputs = adForm.querySelectorAll('input');
   var addressInput = adForm.querySelector('input#address');
   var filter = document.querySelector('.map__filters');
   var mapFilters = filter.children;
-  var mainPin = map.querySelector('.map__pin--main');
   var mainPinX = mainPin.offsetLeft;
   var mainPinY = mainPin.offsetTop;
 
@@ -38,18 +37,6 @@
     }
   };
 
-  var doElementsDisabled = function (elementsCollection) {
-    Array.from(elementsCollection).forEach(function (element) {
-      element.setAttribute('disabled', '');
-    });
-  };
-
-  var undoElementsDisabled = function (elementsCollection) {
-    Array.from(elementsCollection).forEach(function (element) {
-      element.removeAttribute('disabled');
-    });
-  };
-
   var getAdress = function (pinParameterX, pinParameterY) {
     var addressX = mainPinX + pinParameterX;
     var addressY = mainPinY + pinParameterY;
@@ -57,42 +44,11 @@
     return adressValue;
   };
 
-  var successHandler = function (offers) {
-    window.data.offers = offers;
-    window.pins.paintPins();
-  };
-
-  var errorHandler = function (errorMessage) {
-    var errorBlock = document.createElement('div');
-    errorBlock.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: tomato;';
-    errorBlock.style.position = 'absolute';
-    errorBlock.style.left = 0;
-    errorBlock.style.top = 0;
-    errorBlock.style.fontSize = '30px';
-
-    errorBlock.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', errorBlock);
-  };
-
-  var activateMap = function () {
-    map.classList.remove('map--faded');
-    adForm.classList.remove('ad-form--disabled');
-    undoElementsDisabled(adFormInputs);
-    undoElementsDisabled(mapFilters);
-  };
-
-  var getActivation = function () {
-    activateMap();
-    window.backend.download(successHandler, errorHandler);
-    window.pins.paintPins();
     addressInput.value = getAdress(Math.floor(MAIN_PIN_SIZE / 2), MAIN_PIN_SIZE + MAIN_PIN_AFTER_HEIGHT);
-  };
-  doElementsDisabled(adFormInputs);
-  doElementsDisabled(mapFilters);
+
 
   mainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
-    getActivation();
 
     var startCoords = {
       x: evt.clientX,
@@ -124,12 +80,12 @@
     var onMouseUp = function () {
       document.removeEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
+      /*if (map.querySelector('article')) {
+        window.cards.closePopup();
+      }*/
     };
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
   // активация клавиатурой
-  mainPin.addEventListener('keydown', function (evt) {
-    window.utils.isEnterEvent(evt, getActivation);
-  });
 })();

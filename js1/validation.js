@@ -9,10 +9,6 @@
   var typeInput = adForm.querySelector('#type');
   var priceInput = adForm.querySelector('#price');
 
-  var checkInInput = adForm.querySelector('#timein');
-  var checkOutInput = adForm.querySelector('#timeout');
-
-//сделать switch case
   var getCapacityValidationMessage = function (evt) {
     var guestValue = +inputGuestsNumber.value;
     var roomsValue = +inputRoomsNumber.value;
@@ -26,11 +22,17 @@
       inputRoomsNumber.setCustomValidity('');
     }
   };
+
+
   var getPriceValidation = function () {
     var typeValue = typeInput.value;
-    priceInput.setAttribute('min', window.utils.typesList[typeValue].minprice);
-    priceInput.setAttribute('placeholder', window.utils.typesList[typeValue].minprice);
+    priceInput.setAttribute('min', window.data.typesList[typeValue].minprice);
+    priceInput.setAttribute('placeholder', window.data.typesList[typeValue].minprice);
   };
+
+  var checkInInput = adForm.querySelector('#timein');
+  var checkOutInput = adForm.querySelector('#timeout');
+
   var checkInOutValidation = function () {
     checkOutInput.addEventListener('change', function () {
       checkInInput.value = checkOutInput.value;
@@ -41,14 +43,13 @@
     });
   };
 
-  //блок обработчика валиадции
   adForm.addEventListener('input', function (evt) {
     getCapacityValidationMessage(evt);
     getPriceValidation();
     checkInOutValidation();
   });
 
-  //успешная отправка формы
+
   var formSuccessHandler = function () {
     var successTemplate = document.querySelector('#success').content.querySelector('.success');
     var successMessage = successTemplate.cloneNode(true);
@@ -62,18 +63,17 @@
     }
     successMessage.addEventListener('click', function () {
       hideSuccessMessage();
-      window.desactivate.deactivateMap();
-
     });
     document.addEventListener('keydown', function (evt) {
       window.utils.isEscEvent(evt, hideSuccessMessage);
-      window.desactivate.deactivateMap();
-
     });
+
   }
 
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.backend.save(new FormData(adForm), formSuccessHandler, window.errorHandler.errorHandler);
+    window.backend.save(new FormData(adForm), formSuccessHandler, window.activate.errorHandler);
+    window.activate.deactivateMap();
   });
+
 })();

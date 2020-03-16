@@ -1,18 +1,11 @@
 'use strict';
 
 (function () {
-  var fragment = document.createDocumentFragment();
-  var map = document.querySelector('.map');
   var pinsList = document.querySelector('.map__pins');
 
-  var closePopup = function () {
-    map.querySelector('article').remove();
-  };
-
-
-  var createFragment = function (array, element) {
-    array.forEach(function (item) {
-      fragment.appendChild(element(item));
+  var createFragment = function (data, element) {
+    data.forEach(function (item) {
+      window.utils.fragment.appendChild(element(item));
     });
   };
 
@@ -27,44 +20,25 @@
 
     return pinElement;
   };
+
   window.pins = {
-    paintPins: function () {
+    paintPins: function (data) {
       // создаем фрагмент из пинов
-      createFragment(window.data.offers, renderPin);
+      createFragment(data, renderPin);
       // добавляем фрагмент из пинов в блок
-      pinsList.appendChild(fragment);
+      pinsList.appendChild(window.utils.fragment);
       var pins = pinsList.querySelectorAll('.map__pin:not(.map__pin--main)');
-      // карта по нажатию на пин
-      var createCard = function (data) {
-        fragment.appendChild(window.cards.renderCard(data));
-        map.insertBefore(fragment, map.querySelector('.map__filters-container'));
-        var newCard = map.querySelector('article');
-        var cardCloseButton = newCard.querySelector('.popup__close');
-        cardCloseButton.addEventListener('click', function () {
-          closePopup();
-          document.removeEventListener('keydown', closePopup);
-        });
-        document.addEventListener('keydown', function (evt) {
-          window.utils.isEscEvent(evt, closePopup);
-        });
-      };
-      var openPopup = function (data) {
-        var article = map.querySelector('article');
-        if (article) {
-          article.remove();
-        }
-        createCard(data);
-      };
+
       pins.forEach(function (pin, i) {
         pin.addEventListener('click', function () {
-          openPopup(window.data.offers[i]);
+          window.cards.openPopup(data[i]);
         });
         pin.addEventListener('keydown', function (evt) {
           if (evt.key === 'Enter') {
-            openPopup(window.data.offers[i]);
+            window.cards.openPopup(data[i]);
           }
         });
       });
     }
-  };
+  }
 })();
