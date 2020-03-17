@@ -5,14 +5,13 @@
   var adForm = document.querySelector('.ad-form');
   var inputRoomsNumber = adForm.querySelector('#room_number');
   var inputGuestsNumber = adForm.querySelector('#capacity');
-
   var typeInput = adForm.querySelector('#type');
   var priceInput = adForm.querySelector('#price');
-
+  var adFormResetButton = adForm.querySelector('.ad-form__reset');
   var checkInInput = adForm.querySelector('#timein');
   var checkOutInput = adForm.querySelector('#timeout');
 
-//сделать switch case
+  //сделать switch case
   var getCapacityValidationMessage = function (evt) {
     var guestValue = +inputGuestsNumber.value;
     var roomsValue = +inputRoomsNumber.value;
@@ -54,26 +53,29 @@
     var successMessage = successTemplate.cloneNode(true);
     var hideSuccessMessage = function () {
       successMessage.classList.add('visually-hidden');
-    }
+    };
     if (main.querySelector('.success')) {
       main.querySelector('.success').classList.remove('visually-hidden');
     } else {
       main.appendChild(successMessage);
     }
+    window.desactivate.deactivateMap();
     successMessage.addEventListener('click', function () {
       hideSuccessMessage();
-      window.desactivate.deactivateMap();
-
     });
     document.addEventListener('keydown', function (evt) {
       window.utils.isEscEvent(evt, hideSuccessMessage);
-      window.desactivate.deactivateMap();
-
     });
-  }
+  };
 
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     window.backend.save(new FormData(adForm), formSuccessHandler, window.errorHandler.errorHandler);
   });
+
+  adFormResetButton.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    window.desactivate.deactivateMap();
+  });
+
 })();

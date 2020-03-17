@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var ECS_KEY = 'Escape';
+  var ESC_KEY = 'Escape';
   var ENTER_KEY = 'Enter';
   window.utils = {
     fragment: document.createDocumentFragment(),
@@ -24,7 +24,7 @@
       }
     },
     isEscEvent: function (evt, action) {
-      if (evt.key === ECS_KEY) {
+      if (evt.key === ESC_KEY) {
         action();
       }
     },

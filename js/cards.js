@@ -77,18 +77,21 @@
     var cardCloseButton = newCard.querySelector('.popup__close');
     cardCloseButton.addEventListener('click', function () {
       window.cards.closePopup();
-      document.removeEventListener('click', window.cards.closePopup);
     });
-    document.addEventListener('keydown', function (evt) {
-      window.utils.isEscEvent(evt, window.cards.closePopup);
-      document.removeEventListener('keydown', window.cards.closePopup);
-    });
+    document.addEventListener('keydown', closePopupEsc);
+  };
+
+  var closePopup = function () {
+    map.querySelector('article').remove();
+    document.removeEventListener('keydown', closePopupEsc);
+  };
+
+  var closePopupEsc = function (evt) {
+    window.utils.isEscEvent(evt, closePopup);
   };
 
   window.cards = {
-    closePopup: function () {
-      map.querySelector('article').remove();
-    },
+    closePopup: closePopup,
 
     openPopup: function (ads) {
       if (map.querySelector('article')) {

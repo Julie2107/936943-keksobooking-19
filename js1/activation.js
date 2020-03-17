@@ -5,9 +5,9 @@
   var adForm = document.querySelector('.ad-form');
   var mainPin = map.querySelector('.map__pin--main');
   var adFormInputs = adForm.querySelectorAll('input');
+  var addressInput = adForm.querySelector('input#address');
   var filter = document.querySelector('.map__filters');
   var mapFilters = filter.children;
-
 
   var undoElementsDisabled = function (elementsCollection) {
     Array.from(elementsCollection).forEach(function (element) {
@@ -26,12 +26,13 @@
     undoElementsDisabled(adFormInputs);
     undoElementsDisabled(mapFilters);
     window.backend.download(successHandler, window.errorHandler.errorHandler);
-    mainPin.removeEventListener('mousedown', window.desactivate.mainPinMouseDownHandler);
-    mainPin.removeEventListener('keydown', window.desactivate.mainPinKeyDownHandler);
-  };
-
-  window.activation = {
-    activateMap: activateMap
-  };
-
+    mainPin.removeEventListener('mouseup', activateMap);
+    mainPin.removeEventListener('keydown', activateMap);
+  }
+  mainPin.addEventListener('mouseup', function (evt) {
+    activateMap();
+  });
+  mainPin.addEventListener('keydown', function (evt) {
+    window.utils.isEnterEvent(evt, activateMap);
+  });
 })();
