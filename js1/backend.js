@@ -1,24 +1,18 @@
 'use strict';
 
 (function () {
-  var URL_GET = 'https://js.dump.academy/keksobooking/data';
-  var URL_POST = 'https://js.dump.academy/keksobooking/';
-  var TIMEOUT = 5000;
-  var OK_STATUS = 200;
-  var offers = [];
   window.backend = {
     download: function (onSuccess, onError) {
+      var URL = 'https://js.dump.academy/keksobooking/data';
 
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'json';
 
       xhr.addEventListener('load', function () {
-        if (xhr.status === OK_STATUS) {
+        if (xhr.status === 200) {
           onSuccess(xhr.response);
-        //  offers = xhr.response;
-        //  return offers;
         } else {
-          onError(window.errorHandler.statusMessage[xhr.status]);
+          onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
         }
       });
       xhr.addEventListener('error', function () {
@@ -28,30 +22,31 @@
         onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
       });
 
-      xhr.timeOut = TIMEOUT;
+      xhr.timeOut = 5000;
 
-      xhr.open('GET', URL_GET);
+      xhr.open('GET', URL);
       xhr.send();
     },
     save: function (data, onLoad, onError) {
+      var URL = 'https://js.dump.academy/keksobooking/';
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'json';
 
       xhr.addEventListener('load', function () {
-        if (xhr.status === OK_STATUS) {
+        if (xhr.status === 200) {
           onLoad(xhr.response);
         } else {
-          onError(window.errorHandler.statusMessage[xhr.status]);
+          onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
         }
       });
 
       xhr.addEventListener('error', function () {
-        onError(window.errorHandler.statusMessage[xhr.status]);
+        onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
       });
 
-      xhr.timeOut = TIMEOUT;
+      xhr.timeOut = 5000;
 
-      xhr.open('POST', URL_POST);
+      xhr.open('POST', URL);
       xhr.send(data);
     }
   };
