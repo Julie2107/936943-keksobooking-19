@@ -44,7 +44,6 @@
 
   addressInput.value = getAdress(Math.floor(MAIN_PIN_SIZE / 2), MAIN_PIN_SIZE + MAIN_PIN_AFTER_HEIGHT);
 
-
   mainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 

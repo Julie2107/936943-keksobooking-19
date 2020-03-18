@@ -5,7 +5,7 @@
   var URL_POST = 'https://js.dump.academy/keksobooking/';
   var TIMEOUT = 5000;
   var OK_STATUS = 200;
-  var offers = [];
+
   window.backend = {
     download: function (onSuccess, onError) {
 
@@ -15,8 +15,9 @@
       xhr.addEventListener('load', function () {
         if (xhr.status === OK_STATUS) {
           onSuccess(xhr.response);
-        //  offers = xhr.response;
-        //  return offers;
+
+          window.activation.offers = xhr.response;
+
         } else {
           onError(window.errorHandler.statusMessage[xhr.status]);
         }

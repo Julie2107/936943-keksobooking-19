@@ -40,14 +40,12 @@
     });
   };
 
-  //блок обработчика валиадции
   adForm.addEventListener('input', function (evt) {
     getCapacityValidationMessage(evt);
     getPriceValidation();
     checkInOutValidation();
   });
 
-  //успешная отправка формы
   var formSuccessHandler = function () {
     var successTemplate = document.querySelector('#success').content.querySelector('.success');
     var successMessage = successTemplate.cloneNode(true);

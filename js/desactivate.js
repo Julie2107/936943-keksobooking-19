@@ -59,7 +59,11 @@
   window.desactivate = {
     deactivateMap: deactivateMap,
     mainPinMouseDownHandler: mainPinMouseDownHandler,
-    mainPinKeyDownHandler: mainPinKeyDownHandler
+
+    mainPinKeyDownHandler: mainPinKeyDownHandler,
+    deletePins: deletePins,
+    closeOpenedPopup: closeOpenedPopup
+
   };
 
 })();

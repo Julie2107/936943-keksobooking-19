@@ -8,6 +8,7 @@
   var filter = document.querySelector('.map__filters');
   var mapFilters = filter.children;
 
+  var offers = [];
 
   var undoElementsDisabled = function (elementsCollection) {
     Array.from(elementsCollection).forEach(function (element) {
@@ -16,22 +17,28 @@
   };
 
   var successHandler = function (offers) {
-    console.log(offers);
+
     window.pins.paintPins(offers);
+    undoElementsDisabled(mapFilters);
+
   };
 
   var activateMap = function () {
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
     undoElementsDisabled(adFormInputs);
-    undoElementsDisabled(mapFilters);
+
+
     window.backend.download(successHandler, window.errorHandler.errorHandler);
     mainPin.removeEventListener('mousedown', window.desactivate.mainPinMouseDownHandler);
     mainPin.removeEventListener('keydown', window.desactivate.mainPinKeyDownHandler);
   };
 
   window.activation = {
-    activateMap: activateMap
+
+    activateMap: activateMap,
+    offers: offers
+
   };
 
 })();
