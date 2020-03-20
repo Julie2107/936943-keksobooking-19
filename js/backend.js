@@ -1,8 +1,10 @@
 'use strict';
 
 (function () {
-  var URL_GET = 'https://js.dump.academy/keksobooking/data';
-  var URL_POST = 'https://js.dump.academy/keksobooking/';
+  var RequestMethod = {
+    URL_GET: 'https://js.dump.academy/keksobooking/data',
+    URL_POST: 'https://js.dump.academy/keksobooking/'
+  };
   var TIMEOUT = 5000;
   var OK_STATUS = 200;
 
@@ -17,19 +19,19 @@
           onSuccess(xhr.response);
           window.activation.offers = xhr.response;
         } else {
-          onError(window.errorHandler.StatusMessage[xhr.status]);
+          onError(window.error.StatusMessage[xhr.status]);
         }
       });
       xhr.addEventListener('error', function () {
         onError('Произошла ошибка соединения');
       });
       xhr.addEventListener('timeout', function () {
-        onError(window.errorHandler.StatusMessage[xhr.status]);
+        onError(window.error.StatusMessage[xhr.status]);
       });
 
       xhr.timeOut = TIMEOUT;
 
-      xhr.open('GET', URL_GET);
+      xhr.open('GET', RequestMethod.URL_GET);
       xhr.send();
     },
     save: function (data, onLoad, onError) {
@@ -40,17 +42,17 @@
         if (xhr.status === OK_STATUS) {
           onLoad(xhr.response);
         } else {
-          onError(window.errorHandler.StatusMessage[xhr.status]);
+          onError(window.error.StatusMessage[xhr.status]);
         }
       });
 
       xhr.addEventListener('error', function () {
-        onError(window.errorHandler.StatusMessage[xhr.status]);
+        onError(window.error.StatusMessage[xhr.status]);
       });
 
       xhr.timeOut = TIMEOUT;
 
-      xhr.open('POST', URL_POST);
+      xhr.open('POST', RequestMethod.URL_POST);
       xhr.send(data);
     }
   };

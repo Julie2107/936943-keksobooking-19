@@ -2,6 +2,8 @@
 
 (function () {
   var LEFT_MOUSE_BUTTON = 1;
+  var DEFAULT_PIN_COORDINATES = 'left: 570px; top: 375px;';
+
   var adForm = document.querySelector('.ad-form');
   var map = window.utils.map;
   var mainPin = window.utils.mainPin;
@@ -9,7 +11,7 @@
   var filter = window.utils.filter;
   var pinsList = document.querySelector('.map__pins');
   var mapFilters = filter.children;
-  var addressInput = adForm.querySelector('input#address');
+
   var doElementsDisabled = function (elementsCollection) {
     Array.from(elementsCollection).forEach(function (element) {
       element.setAttribute('disabled', '');
@@ -45,7 +47,7 @@
   };
 
   var deactivateMap = function () {
-    mainPin.style = 'left: 570px; top: 375px;'
+    mainPin.style = DEFAULT_PIN_COORDINATES;
     adForm.reset();
     filter.reset();
     map.classList.add('map--faded');

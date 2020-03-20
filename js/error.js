@@ -37,7 +37,7 @@
     errorMessage.querySelector('.error__message').textContent = errorText;
   };
 
-  window.errorHandler = {
+  window.error = {
     errorHandler: errorHandler,
     StatusMessage: StatusMessage
   };

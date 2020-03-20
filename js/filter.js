@@ -2,13 +2,11 @@
 
 (function () {
   var ADS_AMOUNT = 5;
-  var FilterMap = {
-    ANY_TYPE: 'any',
-    priceValues: {
-      middle: 10000 - 50000,
-      low: 10000,
-      high: 50000
-    }
+  var ANY_TYPE = 'any';
+  var priceValues = {
+    middle: 10000 - 50000,
+    low: 10000,
+    high: 50000
   };
 
   var filter = window.utils.filter;
@@ -20,39 +18,31 @@
   var filteredAds = [];
 
   var setTypeFilter = function (ad) {
-    return (typeFilter.value === FilterMap.ANY_TYPE) ? true : ad.offer.type === typeFilter.value;
+    return (typeFilter.value === ANY_TYPE) ? true : ad.offer.type === typeFilter.value;
   };
 
   var setPriceFilter = function (ad) {
     var priceMap = {
-      'high': ad.offer.price > FilterMap.priceValues.high,
-      'low': ad.offer.price < FilterMap.priceValues.low,
-      'middle': ad.offer.price >= 10000 && ad.offer.price <= 50000
+      'high': ad.offer.price > priceValues.high,
+      'low': ad.offer.price < priceValues.low,
+      'middle': ad.offer.price >= priceValues.low && ad.offer.price <= priceValues.high
     };
-    return (priceFilter.value === FilterMap.ANY_TYPE) ? true : priceMap[priceFilter.value];
+    return (priceFilter.value === ANY_TYPE) ? true : priceMap[priceFilter.value];
   };
 
   var setRoomsFilter = function (ad) {
-    return (roomsFilter.value === FilterMap.ANY_TYPE) ? true : ad.offer.rooms.toString() === roomsFilter.value;
+    return (roomsFilter.value === ANY_TYPE) ? true : ad.offer.rooms.toString() === roomsFilter.value;
   };
 
   var setGuestsFilter = function (ad) {
-    return (guestsFilter.value === FilterMap.ANY_TYPE) ? true : ad.offer.guests.toString() === guestsFilter.value;
+    return (guestsFilter.value === ANY_TYPE) ? true : ad.offer.guests.toString() === guestsFilter.value;
   };
 
   var setFeaturesFilter = function (ad) {
-    var checkedFeatures = featuresList.querySelectorAll('input:checked');
-    var featureValues = [];
-    if (checkedFeatures.length <= 0) {
-      return true;
-    } else {
-      checkedFeatures.forEach(function (feature) {
-        featureValues.push(feature.value);
-      });
-      return featureValues.every(function (value) {
-        return ad.offer.features.includes(value);
-      });
-    }
+    var checkedFeatures = Array.from(featuresList.querySelectorAll('input:checked'));
+    return checkedFeatures.every(function (featureValue) {
+      return ad.offer.features.includes(featureValue.value);
+    });
   };
 
   var setFilter = function () {

@@ -7,6 +7,7 @@
   var adFormFieldsets = window.utils.adFormFieldsets;
   var filter = window.utils.filter;
   var mapFilters = filter.children;
+  var offers = [];
 
   var undoElementsDisabled = function (elementsCollection) {
     Array.from(elementsCollection).forEach(function (element) {
@@ -23,14 +24,14 @@
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
     undoElementsDisabled(adFormFieldsets);
-    window.backend.download(successHandler, window.errorHandler.errorHandler);
+    window.backend.download(successHandler, window.error.errorHandler);
     mainPin.removeEventListener('mousedown', window.desactivation.mainPinMouseDownHandler);
     mainPin.removeEventListener('keydown', window.desactivation.mainPinKeyDownHandler);
   };
 
   window.activation = {
     activateMap: activateMap,
-    offers: []
+    offers: offers
   };
 
 })();

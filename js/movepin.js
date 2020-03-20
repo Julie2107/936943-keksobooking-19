@@ -17,7 +17,7 @@
   var getPinLeftValue = function (coord) {
     if (coord < 0 - Math.floor(MAIN_PIN_SIZE / 2)) {
       mainPin.style.left = -Math.floor(MAIN_PIN_SIZE / 2) + 'px';
-    } else if (coord > mapWidth) {
+    } else if (coord > mapWidth - Math.floor(MAIN_PIN_SIZE / 2)) {
       mainPin.style.left = (mapWidth - Math.floor(MAIN_PIN_SIZE / 2)) + 'px';
     } else {
       mainPin.style.left = coord + 'px';
@@ -27,7 +27,7 @@
   var getPinTopValue = function (coord) {
     if (coord < TOP_MIN - MAIN_PIN_SIZE - MAIN_PIN_AFTER_HEIGHT) {
       mainPin.style.top = (TOP_MIN - MAIN_PIN_SIZE - MAIN_PIN_AFTER_HEIGHT) + 'px';
-    } else if (coord > TOP_MAX) {
+    } else if (coord > TOP_MAX - MAIN_PIN_SIZE - MAIN_PIN_AFTER_HEIGHT) {
       mainPin.style.top = (TOP_MAX - MAIN_PIN_SIZE - MAIN_PIN_AFTER_HEIGHT) + 'px';
     } else {
       mainPin.style.top = coord + 'px';
@@ -51,7 +51,7 @@
       y: evt.clientY
     };
 
-    var onMouseMove = function (moveEvt) {
+    var mainPinMouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
 
       var shift = {
@@ -73,14 +73,14 @@
       addressInput.value = (leftFin + Math.floor(MAIN_PIN_SIZE / 2)) + ', ' + (topFin + MAIN_PIN_SIZE + MAIN_PIN_AFTER_HEIGHT);
     };
 
-    var onMouseUp = function () {
-      document.removeEventListener('mousemove', onMouseMove);
-      document.addEventListener('mouseup', onMouseUp);
+    var mainPinMouseUpHandler = function () {
+      document.removeEventListener('mousemove', mainPinMouseMoveHandler);
+      document.addEventListener('mouseup', mainPinMouseUpHandler);
     };
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mousemove', mainPinMouseMoveHandler);
+    document.addEventListener('mouseup', mainPinMouseUpHandler);
   });
   window.movepin = {
     getAdress: getAdress
-  }
+  };
 })();

@@ -7,7 +7,7 @@
     var collection = element.querySelector(selector).children;
     Array.from(collection).forEach(function (item) {
       item.remove();
-    })
+    });
   };
 
   var appendBlocksFromArray = function (array, parentBlock) {
@@ -15,16 +15,16 @@
       var featureElement = document.createElement('li');
       featureElement.className = 'popup__feature popup__feature--' + item;
       parentBlock.appendChild(featureElement);
-    })
+    });
   };
 
   var deleteUndefinedTextContent = function (block) {
     var elements = block.children;
     Array.from(elements).forEach(function (element) {
       if (element.textContent === undefined) {
-        block.removeChild(elements[i]);
+        block.removeChild(element);
       }
-    })
+    });
     return block;
   };
 
@@ -44,21 +44,21 @@
   };
 
   var getRoomsString = function (roomsNumber) {
-    if (roomsNumber%10 === 0 || roomsNumber%10 >= 5) {
-      return ' комнат для '
-    } else if (roomsNumber%10 === 1) {
-      return ' комната для '
+    if (roomsNumber % 10 === 0 || roomsNumber % 10 >= 5) {
+      return ' комнат для ';
+    } else if (roomsNumber % 10 === 1) {
+      return ' комната для ';
     } else {
-      return ' комнаты для '
+      return ' комнаты для ';
     }
-  }
+  };
   var getGuestsString = function (guestsNumber) {
-    if (guestsNumber%10 === 1) {
-      return ' гостя'
-      } else {
-      return ' гостей'
+    if (guestsNumber % 10 === 1) {
+      return ' гостя';
+    } else {
+      return ' гостей';
     }
-  }
+  };
 
   var renderCard = function (ads) {
     // ищем темплейт
