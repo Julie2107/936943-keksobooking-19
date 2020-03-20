@@ -6,12 +6,11 @@
   var TOP_MAX = 630;
   var TOP_MIN = 130;
 
-  var map = document.querySelector('.map');
-  var adForm = document.querySelector('.ad-form');
-  var mainPin = map.querySelector('.map__pin--main');
+  var map = window.utils.map;
+  var adForm = window.utils.adForm;
+  var mainPin = window.utils.mainPin;
   var mapWidth = map.offsetWidth;
   var addressInput = adForm.querySelector('input#address');
-  var filter = document.querySelector('.map__filters');
   var mainPinX = mainPin.offsetLeft;
   var mainPinY = mainPin.offsetTop;
 
@@ -29,7 +28,7 @@
     if (coord < TOP_MIN - MAIN_PIN_SIZE - MAIN_PIN_AFTER_HEIGHT) {
       mainPin.style.top = (TOP_MIN - MAIN_PIN_SIZE - MAIN_PIN_AFTER_HEIGHT) + 'px';
     } else if (coord > TOP_MAX) {
-      mainPin.style.top = TOP_MAX + 'px';
+      mainPin.style.top = (TOP_MAX - MAIN_PIN_SIZE - MAIN_PIN_AFTER_HEIGHT) + 'px';
     } else {
       mainPin.style.top = coord + 'px';
     }
@@ -42,11 +41,11 @@
     return adressValue;
   };
 
-  addressInput.value = getAdress(Math.floor(MAIN_PIN_SIZE / 2), MAIN_PIN_SIZE + MAIN_PIN_AFTER_HEIGHT);
 
   mainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
+    addressInput.value = getAdress(Math.floor(MAIN_PIN_SIZE / 2), MAIN_PIN_SIZE + MAIN_PIN_AFTER_HEIGHT);
     var startCoords = {
       x: evt.clientX,
       y: evt.clientY
@@ -81,5 +80,7 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
-  // активация клавиатурой
+  window.movepin = {
+    getAdress: getAdress
+  }
 })();

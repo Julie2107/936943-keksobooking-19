@@ -1,8 +1,8 @@
 'use strict';
 
 (function () {
-  var main = document.querySelector('main');
-  var adForm = document.querySelector('.ad-form');
+  var main = window.utils.main;
+  var adForm = window.utils.adForm;
   var inputRoomsNumber = adForm.querySelector('#room_number');
   var inputGuestsNumber = adForm.querySelector('#capacity');
   var typeInput = adForm.querySelector('#type');
@@ -11,7 +11,7 @@
   var checkInInput = adForm.querySelector('#timein');
   var checkOutInput = adForm.querySelector('#timeout');
 
-  //сделать switch case
+  // сделать switch case
   var getCapacityValidationMessage = function (evt) {
     var guestValue = +inputGuestsNumber.value;
     var roomsValue = +inputRoomsNumber.value;
@@ -57,7 +57,7 @@
     } else {
       main.appendChild(successMessage);
     }
-    window.desactivate.deactivateMap();
+    window.desactivation.deactivateMap();
     successMessage.addEventListener('click', function () {
       hideSuccessMessage();
     });
@@ -73,7 +73,7 @@
 
   adFormResetButton.addEventListener('click', function (evt) {
     evt.preventDefault();
-    window.desactivate.deactivateMap();
+    window.desactivation.deactivateMap();
   });
 
 })();

@@ -1,9 +1,8 @@
 'use strict';
 
 (function () {
-
-  var main = document.querySelector('main');
-  var statusMessage = {
+  var main = window.utils.main;
+  var StatusMessage = {
     200: 'Форма отправлена успешно',
     301: 'Данные временно перемещены на другой сервер, попробуйте позже',
     302: 'Данные удалены или перемещены на другой сервер.',
@@ -17,16 +16,13 @@
   };
 
   var errorHandler = function (errorText) {
-
     var errorTemplate = document.querySelector('#error').content.querySelector('.error');
     var errorMessage = errorTemplate.cloneNode(true);
     var hideErrorMessage = function () {
       errorMessage.classList.add('visually-hidden');
       errorMessage.removeEventListener('click', hideErrorMessage);
       document.removeEventListener('keydown', window.utils.isEscEvent);
-
     };
-
     if (main.querySelector('.error')) {
       main.querySelector('.error').classList.remove('visually-hidden');
     } else {
@@ -39,14 +35,10 @@
       window.utils.isEscEvent(evt, hideErrorMessage);
     });
     errorMessage.querySelector('.error__message').textContent = errorText;
-
   };
-
 
   window.errorHandler = {
     errorHandler: errorHandler,
-    statusMessage: statusMessage
-
+    StatusMessage: StatusMessage
   };
-
 })();

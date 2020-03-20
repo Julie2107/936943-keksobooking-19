@@ -15,18 +15,16 @@
       xhr.addEventListener('load', function () {
         if (xhr.status === OK_STATUS) {
           onSuccess(xhr.response);
-
           window.activation.offers = xhr.response;
-
         } else {
-          onError(window.errorHandler.statusMessage[xhr.status]);
+          onError(window.errorHandler.StatusMessage[xhr.status]);
         }
       });
       xhr.addEventListener('error', function () {
         onError('Произошла ошибка соединения');
       });
       xhr.addEventListener('timeout', function () {
-        onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+        onError(window.errorHandler.StatusMessage[xhr.status]);
       });
 
       xhr.timeOut = TIMEOUT;
@@ -42,12 +40,12 @@
         if (xhr.status === OK_STATUS) {
           onLoad(xhr.response);
         } else {
-          onError(window.errorHandler.statusMessage[xhr.status]);
+          onError(window.errorHandler.StatusMessage[xhr.status]);
         }
       });
 
       xhr.addEventListener('error', function () {
-        onError(window.errorHandler.statusMessage[xhr.status]);
+        onError(window.errorHandler.StatusMessage[xhr.status]);
       });
 
       xhr.timeOut = TIMEOUT;
