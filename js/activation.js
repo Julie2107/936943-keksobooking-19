@@ -15,8 +15,8 @@
     });
   };
 
-  var successHandler = function (offers) {
-    window.pins.paintPins(offers);
+  var successHandler = function (ads) {
+    window.pins.paintPins(ads);
     undoElementsDisabled(mapFilters);
   };
 
