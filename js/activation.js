@@ -1,13 +1,12 @@
 'use strict';
 
 (function () {
-  var map = document.querySelector('.map');
-  var adForm = document.querySelector('.ad-form');
-  var mainPin = map.querySelector('.map__pin--main');
-  var adFormInputs = adForm.querySelectorAll('input');
-  var filter = document.querySelector('.map__filters');
+  var map = window.utils.map;
+  var adForm = window.utils.adForm;
+  var mainPin = window.utils.mainPin;
+  var adFormFieldsets = window.utils.adFormFieldsets;
+  var filter = window.utils.filter;
   var mapFilters = filter.children;
-
   var offers = [];
 
   var undoElementsDisabled = function (elementsCollection) {
@@ -17,28 +16,22 @@
   };
 
   var successHandler = function (offers) {
-
     window.pins.paintPins(offers);
     undoElementsDisabled(mapFilters);
-
   };
 
   var activateMap = function () {
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
-    undoElementsDisabled(adFormInputs);
-
-
-    window.backend.download(successHandler, window.errorHandler.errorHandler);
-    mainPin.removeEventListener('mousedown', window.desactivate.mainPinMouseDownHandler);
-    mainPin.removeEventListener('keydown', window.desactivate.mainPinKeyDownHandler);
+    undoElementsDisabled(adFormFieldsets);
+    window.backend.download(successHandler, window.error.errorHandler);
+    mainPin.removeEventListener('mousedown', window.desactivation.mainPinMouseDownHandler);
+    mainPin.removeEventListener('keydown', window.desactivation.mainPinKeyDownHandler);
   };
 
   window.activation = {
-
     activateMap: activateMap,
     offers: offers
-
   };
 
 })();

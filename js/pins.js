@@ -20,25 +20,38 @@
 
     return pinElement;
   };
+  var paintPins = function (data) {
+    // создаем фрагмент из пинов
+    createFragment(data, renderPin);
+    // добавляем фрагмент из пинов в блок
+    pinsList.appendChild(window.utils.fragment);
+    var pins = pinsList.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+    var checkPinActive = function () {
+      var checkedPin = document.querySelector('.map__pin--active');
+      if (checkedPin) {
+        checkedPin.classList.remove('map__pin--active');
+      }
+    };
+
+    pins.forEach(function (pin, i) {
+      pin.addEventListener('click', function () {
+        checkPinActive();
+        pin.classList.add('map__pin--active');
+        window.cards.openPopup(data[i]);
+      });
+      pin.addEventListener('keydown', function (evt) {
+        if (evt.key === 'Enter') {
+          checkPinActive();
+          pin.classList.add('map__pin--active');
+          window.cards.openPopup(data[i]);
+        }
+      });
+    });
+  };
 
   window.pins = {
-    paintPins: function (data) {
-      // создаем фрагмент из пинов
-      createFragment(data, renderPin);
-      // добавляем фрагмент из пинов в блок
-      pinsList.appendChild(window.utils.fragment);
-      var pins = pinsList.querySelectorAll('.map__pin:not(.map__pin--main)');
-
-      pins.forEach(function (pin, i) {
-        pin.addEventListener('click', function () {
-          window.cards.openPopup(data[i]);
-        });
-        pin.addEventListener('keydown', function (evt) {
-          if (evt.key === 'Enter') {
-            window.cards.openPopup(data[i]);
-          }
-        });
-      });
-    }
+    paintPins: paintPins,
+    createFragment: createFragment
   };
 })();

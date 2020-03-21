@@ -1,13 +1,17 @@
 'use strict';
 
 (function () {
+  var LEFT_MOUSE_BUTTON = 1;
+  var DEFAULT_PIN_COORDINATES = 'left: 570px; top: 375px;';
+
   var adForm = document.querySelector('.ad-form');
-  var map = document.querySelector('.map');
-  var mainPin = map.querySelector('.map__pin--main');
+  var map = window.utils.map;
+  var mainPin = window.utils.mainPin;
+  var adFormFieldsets = window.utils.adFormFieldsets;
+  var filter = window.utils.filter;
   var pinsList = document.querySelector('.map__pins');
-  var adFormInputs = adForm.querySelectorAll('input');
-  var filter = document.querySelector('.map__filters');
   var mapFilters = filter.children;
+
   var doElementsDisabled = function (elementsCollection) {
     Array.from(elementsCollection).forEach(function (element) {
       element.setAttribute('disabled', '');
@@ -25,7 +29,7 @@
 
   // Помощник, переводящий страницу в активный режим по нажатию левой кнопки мыши
   var mainPinMouseDownHandler = function (evt) {
-    if (evt.buttons === 1) {
+    if (evt.buttons === LEFT_MOUSE_BUTTON) {
       window.activation.activateMap();
     }
   };
@@ -33,6 +37,7 @@
   // Помощник, переводящий страницу в активный режим по нажатию клавиши Энтер
   var mainPinKeyDownHandler = function (evt) {
     window.utils.isEnterEvent(evt, window.activation.activateMap);
+
   };
 
   var closeOpenedPopup = function () {
@@ -42,11 +47,12 @@
   };
 
   var deactivateMap = function () {
+    mainPin.style = DEFAULT_PIN_COORDINATES;
     adForm.reset();
     filter.reset();
     map.classList.add('map--faded');
     adForm.classList.add('ad-form--disabled');
-    doElementsDisabled(adFormInputs);
+    doElementsDisabled(adFormFieldsets);
     doElementsDisabled(mapFilters);
     deletePins();
     closeOpenedPopup();
@@ -56,14 +62,12 @@
 
   deactivateMap();
 
-  window.desactivate = {
+  window.desactivation = {
     deactivateMap: deactivateMap,
     mainPinMouseDownHandler: mainPinMouseDownHandler,
-
     mainPinKeyDownHandler: mainPinKeyDownHandler,
     deletePins: deletePins,
     closeOpenedPopup: closeOpenedPopup
-
   };
 
 })();

@@ -6,19 +6,18 @@
   var TOP_MAX = 630;
   var TOP_MIN = 130;
 
-  var map = document.querySelector('.map');
-  var adForm = document.querySelector('.ad-form');
-  var mainPin = map.querySelector('.map__pin--main');
+  var map = window.utils.map;
+  var adForm = window.utils.adForm;
+  var mainPin = window.utils.mainPin;
   var mapWidth = map.offsetWidth;
   var addressInput = adForm.querySelector('input#address');
-  var filter = document.querySelector('.map__filters');
   var mainPinX = mainPin.offsetLeft;
   var mainPinY = mainPin.offsetTop;
 
   var getPinLeftValue = function (coord) {
     if (coord < 0 - Math.floor(MAIN_PIN_SIZE / 2)) {
       mainPin.style.left = -Math.floor(MAIN_PIN_SIZE / 2) + 'px';
-    } else if (coord > mapWidth) {
+    } else if (coord > mapWidth - Math.floor(MAIN_PIN_SIZE / 2)) {
       mainPin.style.left = (mapWidth - Math.floor(MAIN_PIN_SIZE / 2)) + 'px';
     } else {
       mainPin.style.left = coord + 'px';
@@ -28,8 +27,8 @@
   var getPinTopValue = function (coord) {
     if (coord < TOP_MIN - MAIN_PIN_SIZE - MAIN_PIN_AFTER_HEIGHT) {
       mainPin.style.top = (TOP_MIN - MAIN_PIN_SIZE - MAIN_PIN_AFTER_HEIGHT) + 'px';
-    } else if (coord > TOP_MAX) {
-      mainPin.style.top = TOP_MAX + 'px';
+    } else if (coord > TOP_MAX - MAIN_PIN_SIZE - MAIN_PIN_AFTER_HEIGHT) {
+      mainPin.style.top = (TOP_MAX - MAIN_PIN_SIZE - MAIN_PIN_AFTER_HEIGHT) + 'px';
     } else {
       mainPin.style.top = coord + 'px';
     }
@@ -42,17 +41,17 @@
     return adressValue;
   };
 
-  addressInput.value = getAdress(Math.floor(MAIN_PIN_SIZE / 2), MAIN_PIN_SIZE + MAIN_PIN_AFTER_HEIGHT);
 
   mainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
+    addressInput.value = getAdress(Math.floor(MAIN_PIN_SIZE / 2), MAIN_PIN_SIZE + MAIN_PIN_AFTER_HEIGHT);
     var startCoords = {
       x: evt.clientX,
       y: evt.clientY
     };
 
-    var onMouseMove = function (moveEvt) {
+    var mainPinMouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
 
       var shift = {
@@ -74,12 +73,14 @@
       addressInput.value = (leftFin + Math.floor(MAIN_PIN_SIZE / 2)) + ', ' + (topFin + MAIN_PIN_SIZE + MAIN_PIN_AFTER_HEIGHT);
     };
 
-    var onMouseUp = function () {
-      document.removeEventListener('mousemove', onMouseMove);
-      document.addEventListener('mouseup', onMouseUp);
+    var mainPinMouseUpHandler = function () {
+      document.removeEventListener('mousemove', mainPinMouseMoveHandler);
+      document.addEventListener('mouseup', mainPinMouseUpHandler);
     };
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mousemove', mainPinMouseMoveHandler);
+    document.addEventListener('mouseup', mainPinMouseUpHandler);
   });
-  // активация клавиатурой
+  window.movepin = {
+    getAdress: getAdress
+  };
 })();
