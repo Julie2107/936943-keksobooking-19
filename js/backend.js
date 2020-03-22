@@ -8,6 +8,10 @@
   var TIMEOUT = 5000;
   var OK_STATUS = 200;
 
+  var getErrorMessage = function (status) {
+    return window.error.StatusMessage[status] || 'Произошла ошибка соединения';
+  };
+
   window.backend = {
     download: function (onSuccess, onError) {
 
@@ -19,14 +23,14 @@
           onSuccess(xhr.response);
           window.activation.offers = xhr.response;
         } else {
-          onError(window.error.StatusMessage[xhr.status]);
+          onError(getErrorMessage(xhr.status));
         }
       });
       xhr.addEventListener('error', function () {
         onError('Произошла ошибка соединения');
       });
       xhr.addEventListener('timeout', function () {
-        onError(window.error.StatusMessage[xhr.status]);
+        onError(getErrorMessage(xhr.status));
       });
 
       xhr.timeOut = TIMEOUT;
@@ -42,12 +46,12 @@
         if (xhr.status === OK_STATUS) {
           onLoad(xhr.response);
         } else {
-          onError(window.error.StatusMessage[xhr.status]);
+          onError(getErrorMessage(xhr.status));
         }
       });
 
       xhr.addEventListener('error', function () {
-        onError(window.error.StatusMessage[xhr.status]);
+        onError(getErrorMessage(xhr.status));
       });
 
       xhr.timeOut = TIMEOUT;

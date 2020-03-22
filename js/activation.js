@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var ADS_AMOUNT = 5;
+
   var map = window.utils.map;
   var adForm = window.utils.adForm;
   var mainPin = window.utils.mainPin;
@@ -15,8 +17,16 @@
     });
   };
 
+  var filterOffersContent = function (advertisments) {
+    var filteredAdvertisments = advertisments.filter(function (advert) {
+      return advert.offer !== undefined;
+    });
+    return filteredAdvertisments;
+  };
+
   var successHandler = function (ads) {
-    window.pins.paintPins(ads);
+    var filteredByOffer = filterOffersContent(ads);
+    window.pins.paintPins(filteredByOffer.slice(0, ADS_AMOUNT));
     undoElementsDisabled(mapFilters);
   };
 

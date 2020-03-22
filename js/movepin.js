@@ -75,7 +75,7 @@
 
     var mainPinMouseUpHandler = function () {
       document.removeEventListener('mousemove', mainPinMouseMoveHandler);
-      document.addEventListener('mouseup', mainPinMouseUpHandler);
+      document.removeEventListener('mouseup', mainPinMouseUpHandler);
     };
     document.addEventListener('mousemove', mainPinMouseMoveHandler);
     document.addEventListener('mouseup', mainPinMouseUpHandler);

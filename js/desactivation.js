@@ -50,6 +50,7 @@
     mainPin.style = DEFAULT_PIN_COORDINATES;
     adForm.reset();
     filter.reset();
+    window.photosupload.resetPhoto();
     map.classList.add('map--faded');
     adForm.classList.add('ad-form--disabled');
     doElementsDisabled(adFormFieldsets);

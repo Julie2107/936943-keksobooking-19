@@ -47,7 +47,8 @@
 
   var setFilter = function () {
     filteredAds = window.activation.offers.filter(function (ad) {
-      return setTypeFilter(ad) &&
+      return ad.offer &&
+             setTypeFilter(ad) &&
              setPriceFilter(ad) &&
              setRoomsFilter(ad) &&
              setGuestsFilter(ad) &&

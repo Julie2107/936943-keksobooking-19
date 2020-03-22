@@ -20,6 +20,7 @@
 
     return pinElement;
   };
+
   var paintPins = function (data) {
     // создаем фрагмент из пинов
     createFragment(data, renderPin);

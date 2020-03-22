@@ -48,16 +48,14 @@
       return ' комнат для ';
     } else if (roomsNumber % 10 === 1) {
       return ' комната для ';
-    } else {
-      return ' комнаты для ';
     }
+    return ' комнаты для ';
   };
   var getGuestsString = function (guestsNumber) {
     if (guestsNumber % 10 === 1) {
       return ' гостя';
-    } else {
-      return ' гостей';
     }
+    return ' гостей';
   };
 
   var renderCard = function (ads) {
