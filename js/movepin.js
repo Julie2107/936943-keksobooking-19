@@ -80,7 +80,4 @@
     document.addEventListener('mousemove', mainPinMouseMoveHandler);
     document.addEventListener('mouseup', mainPinMouseUpHandler);
   });
-  window.movepin = {
-    getAdress: getAdress
-  };
 })();

@@ -35,11 +35,13 @@
   };
 
   var renderPhotos = function (element, selector, photos) {
-    element.querySelector(selector).src = photos[0];
-    for (var i = 1; i < photos.length; i++) {
-      var photoElement = element.querySelector(selector).cloneNode(true);
-      photoElement.src = photos[i];
-      element.querySelector('.popup__photos').appendChild(photoElement);
+    if (photos.length > 0) {
+      element.querySelector(selector).src = photos[0];
+      for (var i = 1; i < photos.length; i++) {
+        var photoElement = element.querySelector(selector).cloneNode(true);
+        photoElement.src = photos[i];
+        element.querySelector('.popup__photos').appendChild(photoElement);
+      }
     }
   };
 
